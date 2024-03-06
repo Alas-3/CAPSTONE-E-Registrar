@@ -1,0 +1,110 @@
+/* DisplayData.css */
+
+.display-data-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff; /* Adjust background color as needed */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 8rem;
+  width: 80%;
+  margin-left: 8rem;
+}
+
+.display-data-content {
+  margin-top: 20px;
+}
+
+.email-section {
+  margin-top: 20px;
+}
+
+
+
+
+.home-link {
+  margin-top: 20px;
+  text-decoration: none;
+}
+
+.home-button {
+  background-color: #134D3A;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+/* .email-input-container { 
+  display: flex;
+}
+
+*/
+
+.email-label {
+  margin-right: 10px;
+}
+
+.email-input {
+  width: 200px;
+  flex: 1; /* Take remaining available space */
+}
+
+.send-button-dd {
+  background-color: #186049;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.home-link {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Center the button */
+}
+
+.home-button {
+  background-color: #134D3A;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+button {
+    width: 10%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Adjust the direction to column */
+  align-items: center; /* Align items in the center horizontally */
+}
+
+.home-button {
+  background-color: #134D3A;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; /* Use flex display for children alignment */
+  align-items: center; /* Align items in the center horizontally */
+}
+
+.home-button img {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+

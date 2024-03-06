@@ -1,0 +1,67 @@
+/* DisplayDataDR.css */
+
+.display-data-container-dr {
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 8rem;
+  width: 80%;
+  margin-left: 8.4rem;
+}
+
+.display-data-content-dr {
+  margin-top: 20px;
+}
+
+.email-section-dr {
+  margin-top: 20px;
+}
+
+.email-label-dr {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.email-input-dr {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.send-button-dr {
+  background-color: #186049;
+  color: #fff;
+  
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+.home-link-dr {
+  margin-top: 20px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+}
+
+.home-button-dr {
+  background-color: #134d3a;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.home-button-dr img {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}

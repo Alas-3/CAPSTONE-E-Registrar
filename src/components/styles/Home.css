@@ -1,0 +1,77 @@
+body {
+  background-color: #134D3A;
+  position: relative;
+}
+
+/* Hide vertical scrollbar */
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Hide horizontal scrollbar */
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+/* Hide scrollbar in Firefox */
+* {
+  scrollbar-width: none;
+}
+/* Styles for Action Buttons */
+.actions {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding-top: 10rem;
+  background: #134D3A;
+  display: flex;
+  justify-content: space-around; /* Add this to evenly distribute buttons */
+  align-items: center;
+}
+
+/* Styles for Enroll Button */
+.enroll-button {
+  width: 25rem; /* Adjust width as needed */
+  height: 25rem;
+  background: #E4D5C7;
+  border-radius: 30px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px; /* Adjust font size as needed */
+  line-height: 39px;
+  text-align: center;
+  color: #186049;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Styles for Request Documents Button */
+.request-documents-button {
+  width: 25rem; /* Adjust width as needed */
+  height: 25rem;
+  background: #E4D5C7;
+  border-radius: 30px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px; /* Adjust font size as needed */
+  line-height: 39px;
+  text-align: center;
+  color: #186049;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Styles for disabled button */
+.action-button.disabled {
+  background-color: #808080; /* Gray color */
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hover styles for buttons */
+.enroll-button:hover,
+.request-documents-button:hover {
+  background-color: #186049;
+  color: #FFFFFF;
+  outline: none;
+}
