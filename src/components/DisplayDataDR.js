@@ -64,6 +64,7 @@ const DisplayDataDR = () => {
       <h2>Confirm Data for Document Request</h2>
       {data && (
         <div className="display-data-content-dr">
+          <p>Ticket Number: {data.ticketNumber}</p>
           <p>Student Number: {data.studentNumber}</p>
           <p>Requested Year Level: {data.yearLevel}</p>
           <p>Program: {data.program}</p>

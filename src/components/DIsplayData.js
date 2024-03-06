@@ -68,6 +68,7 @@ const DisplayData = () => {
   <h2>Confirm Data for Enrollment</h2>
   {enrollmentData && (
     <div className="display-data-content">
+      <p>Ticket Number: {enrollmentData.ticketNumber}</p>
       <p>Student Number: {enrollmentData.studentNumber}</p>
       <p>Program: {enrollmentData.program}</p>
       <p>Year Level: {enrollmentData.yearLevel}</p>
