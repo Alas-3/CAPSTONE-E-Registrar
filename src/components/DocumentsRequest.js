@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import './styles/docureq.css';
 
 const DocumentsRequestForm = () => {
@@ -13,6 +13,41 @@ const DocumentsRequestForm = () => {
   const [yearLevel, setYearLevel] = useState('First Year');
   const [program, setProgram] = useState('');
   const [documentToRequest, setDocumentToRequest] = useState('');
+
+  // Fetch the latest ticket number from a separate collection
+  const fetchLatestTicketNumber = async () => {
+    try {
+      const ticketNumberRef = doc(db, 'ticketNumberDR', 'latest');
+      const ticketNumberSnapshot = await getDoc(ticketNumberRef);
+
+      if (ticketNumberSnapshot.exists()) {
+        return ticketNumberSnapshot.data().number;
+      }
+
+      // If the document doesn't exist, return 0 as the default
+      return 0;
+    } catch (error) {
+      console.error('Error fetching latest ticket number:', error);
+      throw error;
+    }
+  };
+
+  // Increment and update the ticket number in the separate collection
+  const incrementTicketNumber = async () => {
+    try {
+      const latestTicketNumber = await fetchLatestTicketNumber();
+      const newTicketNumber = latestTicketNumber + 1;
+
+      // Update the ticket number in the 'ticketNumberDR' collection
+      const ticketNumberRef = doc(db, 'ticketNumberDR', 'latest');
+      await setDoc(ticketNumberRef, { number: newTicketNumber });
+
+      return newTicketNumber;
+    } catch (error) {
+      console.error('Error incrementing ticket number:', error);
+      throw error;
+    }
+  };
 
   const generateTicketNumber = async () => {
     const today = new Date();
@@ -35,21 +70,20 @@ const DocumentsRequestForm = () => {
   };
 
   const handleContinue = async () => {
-    if (!studentNumber || !yearLevel || !program || !documentToRequest) {
-      alert('Please fill in all fields before continuing.');
-      return;
-    }
-
-    const studentNumberRegex = /^[\d-]+$/;
-    if (!studentNumberRegex.test(studentNumber)) {
-      alert('Invalid student number. Please use only digits and hyphen (-).');
-      return;
-    }
-
     try {
-      const ticketNumber = await generateTicketNumber();
-      if (ticketNumber === null) {
-        alert('Error generating ticket number. Please try again.');
+      // Fetch the latest ticket number
+      const ticketNumber = await incrementTicketNumber();
+
+      // Simple form validation
+      if (!studentNumber || !yearLevel || !program || !documentToRequest) {
+        alert('Please fill in all fields before continuing.');
+        return;
+      }
+
+      // More specific validation for Student Number
+      const studentNumberRegex = /^[\d-]+$/;
+      if (!studentNumberRegex.test(studentNumber)) {
+        alert('Invalid student number. Please use only digits and hyphen (-).');
         return;
       }
 

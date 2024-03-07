@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, limit, doc, setDoc, getDoc } from 'firebase/firestore';
 import './styles/Enrollment.css';
 
 const EnrollmentForm = () => {
@@ -11,46 +11,62 @@ const EnrollmentForm = () => {
   const [semester, setSemester] = useState('');
   const [section, setSection] = useState('');
   const [program, setProgram] = useState('');
-  const [ticketNumber, setTicketNumber] = useState(null);
 
-  const fetchTicketNumber = async () => {
+  // Fetch the latest ticket number from a separate collection
+  const fetchLatestTicketNumber = async () => {
     try {
-      const enrollmentDataRef = collection(db, 'enrollmentData');
-      const q = query(enrollmentDataRef, orderBy('timestamp', 'desc'), limit(1));
-      const querySnapshot = await getDocs(q);
+      const ticketNumberRef = doc(db, 'ticketNumber', 'latest');
+      const ticketNumberSnapshot = await getDoc(ticketNumberRef);
 
-      if (!querySnapshot.empty) {
-        const latestDoc = querySnapshot.docs[0].data();
-        setTicketNumber(latestDoc.ticketNumber + 1);
-      } else {
-        // If there are no documents yet, set ticketNumber to 1
-        setTicketNumber(1);
+      if (ticketNumberSnapshot.exists()) {
+        return ticketNumberSnapshot.data().number;
       }
+
+      // If the document doesn't exist, return 0 as the default
+      return 0;
     } catch (error) {
-      console.error('Error fetching ticket number:', error);
+      console.error('Error fetching latest ticket number:', error);
+      throw error;
+    }
+  };
+
+  // Increment and update the ticket number in the separate collection
+  const incrementTicketNumber = async () => {
+    try {
+      const latestTicketNumber = await fetchLatestTicketNumber();
+      const newTicketNumber = latestTicketNumber + 1;
+
+      // Update the ticket number in the 'ticketNumber' collection
+      const ticketNumberRef = doc(db, 'ticketNumber', 'latest');
+      await setDoc(ticketNumberRef, { number: newTicketNumber });
+
+      return newTicketNumber;
+    } catch (error) {
+      console.error('Error incrementing ticket number:', error);
+      throw error;
     }
   };
 
   const handleContinue = async () => {
-    // Fetch the ticket number before saving the data
-    await fetchTicketNumber();
-
-    // Simple form validation
-    if (!studentNumber || !yearLevel || !semester || !section || !program || ticketNumber === null) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
-    // More specific validation for Student Number
-    const studentNumberRegex = /^[0-9-]+$/;
-    if (!studentNumber.match(studentNumberRegex)) {
-      alert('Please enter a valid Student Number.');
-      return;
-    }
-
     try {
-      const enrollmentDataRef = collection(db, 'enrollmentData');
+      // Fetch the latest ticket number
+      const ticketNumber = await incrementTicketNumber();
 
+      // Simple form validation
+      if (!studentNumber || !yearLevel || !semester || !section || !program) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // More specific validation for Student Number
+      const studentNumberRegex = /^[0-9-]+$/;
+      if (!studentNumber.match(studentNumberRegex)) {
+        alert('Please enter a valid Student Number.');
+        return;
+      }
+
+      // Save the enrollment data with the incremented ticket number
+      const enrollmentDataRef = collection(db, 'enrollmentData');
       const enrollmentData = {
         studentNumber,
         yearLevel,
@@ -74,7 +90,6 @@ const EnrollmentForm = () => {
     // Navigate back to the home page
     navigate('/');
   };
-
 
   return (
     <div className="enrollment-form-container">

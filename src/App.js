@@ -8,7 +8,7 @@ import DisplayData from './components/DIsplayData';
 import DisplayDataDR from './components/DisplayDataDR';
 import ExamPermit from './components/ExamPermit';
 import DisplayDataEP from './components/DisplayDataEP';
- 
+
 function App() {
  
   return (
