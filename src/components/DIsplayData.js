@@ -6,15 +6,18 @@ import { Link } from 'react-router-dom';
 import emailjs from 'emailjs-com'; // Import emailjs library
 import './styles/displaydata.css';
 import homeIcon from './styles/home-outline.svg';
+import { dotWave } from 'ldrs'
+
+dotWave.register()
+
 
 
 const DisplayData = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-
-  // Retrieve the docId from URL parameters
   const docId = queryParams.get('docId');
 
+  const [loading, setLoading] = useState(true); // Track loading state
   const [enrollmentData, setEnrollmentData] = useState(null);
   const [email, setEmail] = useState('');
 
@@ -31,6 +34,8 @@ const DisplayData = () => {
         }
       } catch (error) {
         console.error('Error fetching user data from Firestore:', error);
+      } finally {
+        setLoading(false); // Update loading state when data retrieval is complete
       }
     };
 
@@ -63,49 +68,62 @@ const DisplayData = () => {
     }
   };
 
-  return (
-    <div className="display-data-container">
-  <h2>Confirm Data for Enrollment</h2>
-  {enrollmentData && (
-    <div className="display-data-content">
-      <p>Ticket Number: {enrollmentData.ticketNumber}</p>
-      <p>Student Number: {enrollmentData.studentNumber}</p>
-      <p>Program: {enrollmentData.program}</p>
-      <p>Year Level: {enrollmentData.yearLevel}</p>
-      <p>Semester: {enrollmentData.semester}</p>
-      <p>Preferred Section: {enrollmentData.section}</p>
-      {/* Add additional fields as needed */}
-    </div>
-  )}
-
-  {/* Email input and Send button */}
-  <div className="email-section">
-    <label className="email-label">Email Address:</label>
-    <div className="email-input-container">
-      <input
-        className="email-input"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button className="send-button-dd" onClick={handleSendEmail}>
-        Send Email
-      </button>
-    </div>
-  </div>
-
-  {/* Home button */}
-  <Link to="/" className="home-link">
-    <button className="home-button"><img
-            src={homeIcon}
-            alt="Enroll Icon"
-            style={{ marginRight: '8px', width: '20px', height: '20px' }}
+   return (
+    <div>
+      {loading && ( // Render loading animation if loading
+        <div className="loading-animation-container">
+          <l-dot-wave
+            size="100"
+            speed="1"
+            color="white" 
           />
+        </div>
+      )}
+      {!loading && ( // Render content if not loading
+        <div className="display-data-container">
+          <h2>Confirm Data for Enrollment</h2>
+          {enrollmentData && (
+            <div className="display-data-content">
+              <p>Ticket Number: {enrollmentData.ticketNumber}</p>
+              <p>Student Number: {enrollmentData.studentNumber}</p>
+              <p>Program: {enrollmentData.program}</p>
+              <p>Year Level: {enrollmentData.yearLevel}</p>
+              <p>Semester: {enrollmentData.semester}</p>
+              <p>Preferred Section: {enrollmentData.section}</p>
+              {/* Add additional fields as needed */}
+            </div>
+          )}
 
-      <div style={{ fontSize: '20px' }}>Home</div>
-      </button>
-  </Link>
-</div>
+          {/* Email input and Send button */}
+          <div className="email-section">
+            <label className="email-label">Email Address:</label>
+            <div className="email-input-container">
+              <input
+                className="email-input"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button className="send-button-dd" onClick={handleSendEmail}>
+                Send Email
+              </button>
+            </div>
+          </div>
+
+          {/* Home button */}
+          <Link to="/" className="home-link">
+            <button className="home-button">
+              {/*<img
+                src={homeIcon}
+                alt="Enroll Icon"
+                style={{ marginRight: '8px', width: '20px', height: '20px' }}
+          />*/}
+              <div style={{ fontSize: '20px' }}>Home</div>
+            </button>
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 

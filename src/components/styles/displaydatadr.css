@@ -55,9 +55,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
+  
 }
 
 .home-button-dr img {

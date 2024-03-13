@@ -6,12 +6,16 @@ import { Link } from 'react-router-dom';
 import emailjs from 'emailjs-com';
 import './styles/displaydatadr.css';
 import homeIcon from './styles/home-outline.svg';
+import { dotWave } from 'ldrs'
+
+dotWave.register()
 
 const DisplayDataDR = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const docId = queryParams.get('docId');
 
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [email, setEmail] = useState('');
 
@@ -28,6 +32,8 @@ const DisplayDataDR = () => {
         }
       } catch (error) {
         console.error('Error fetching data from Firestore:', error);
+      } finally {
+        setLoading(false); // Update loading state when data retrieval is complete
       }
     };
 
@@ -60,46 +66,54 @@ const DisplayDataDR = () => {
   };
 
   return (
-     <div className="display-data-container-dr">
-      <h2>Confirm Data for Document Request</h2>
-      {data && (
-        <div className="display-data-content-dr">
-          <p>Ticket Number: {data.ticketNumber}</p>
-          <p>Student Number: {data.studentNumber}</p>
-          <p>Requested Year Level: {data.yearLevel}</p>
-          <p>Program: {data.program}</p>
-          <p>Document to Request: {data.documentToRequest}</p>
-          {/* Add additional fields as needed */}
+    <div>
+      {loading && ( // Render loading animation if loading
+        <div className="loading-animation-container">
+          <l-dot-wave
+            size="100"
+            speed="1"
+            color="white" 
+          />
         </div>
       )}
+      {!loading && ( // Render content if not loading
+        <div className="display-data-container-dr">
+          <h2>Confirm Data for Document Request</h2>
+          {data && (
+            <div className="display-data-content-dr">
+              <p>Ticket Number: {data.ticketNumber}</p>
+              <p>Student Number: {data.studentNumber}</p>
+              <p>Requested Year Level: {data.yearLevel}</p>
+              <p>Program: {data.program}</p>
+              <p>Document to Request: {data.documentToRequest}</p>
+              {/* Add additional fields as needed */}
+            </div>
+          )}
 
-      {/* Email input and Send button */}
-      <div className="email-section-dr">
-      <label className="email-label-dr">Email Address:</label>
-      <div className="email-input-container-dr">
-        <input
-          className="email-input-dr"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button className="send-button-dr" onClick={handleSendEmail}>
-          Send Email
-        </button>
-      </div>
-    </div>
+          {/* Email input and Send button */}
+          <div className="email-section-dr">
+            <label className="email-label-dr">Email Address:</label>
+            <div className="email-input-container-dr">
+              <input
+                className="email-input-dr"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button className="send-button-dr" onClick={handleSendEmail}>
+                Send Email
+              </button>
+            </div>
+          </div>
 
-      {/* Home button */}
-      <Link to="/" className="home-link-dr">
-         <button className="home-button-dr"><img
-            src={homeIcon}
-            alt="Enroll Icon"
-            style={{ marginRight: '8px', width: '20px', height: '20px' }}
-          />
-
-      <div style={{ fontSize: '20px' }}>Home</div>
-      </button>
-      </Link>
+          {/* Home button */}
+          <Link to="/" className="home-link-dr">
+            <button className="home-button-dr">
+              <div style={{ fontSize: '20px' }}>Home</div>
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
