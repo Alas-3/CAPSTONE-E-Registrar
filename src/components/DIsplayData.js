@@ -52,6 +52,7 @@ const DisplayData = () => {
         semester: enrollmentData.semester || '',
         section: enrollmentData.section || '',
         program: enrollmentData.program || '', // Include the program in the email
+        ticketNumber: enrollmentData.ticketNumber || '', // Include the ticket number
       };
 
       await emailjs.send(

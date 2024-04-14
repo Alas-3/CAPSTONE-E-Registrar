@@ -49,6 +49,7 @@ const DisplayDataDR = () => {
         yearLevel: data?.yearLevel || '',
         program: data?.program || '',
         documentToRequest: data?.documentToRequest || '',
+        ticketNumber: data?.ticketNumber || '', // Include the ticket number
       };
 
       await emailjs.send(
