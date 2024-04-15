@@ -7,9 +7,10 @@ import emailjs from 'emailjs-com'; // Import emailjs library
 import './styles/displaydata.css';
 import homeIcon from './styles/home-outline.svg';
 import { dotWave } from 'ldrs'
+import { toast, ToastContainer } from 'react-toastify'; //Import react-toastify
+import 'react-toastify/dist/ReactToastify.css';
 
 dotWave.register()
-
 
 
 const DisplayData = () => {
@@ -62,15 +63,23 @@ const DisplayData = () => {
         'xbWaKQ4rtf30_Jzq3'
       );
 
-      // Redirect to the home page after sending the email
-      // Note: If you want to redirect, you can use the `Link` component from 'react-router-dom'
+      // Display toast notification
+      toast.success('Email Sent', {
+        position: 'top-center', // Display the toast notification at the center of the screen
+        onClose: () => {
+          // Redirect to the home page after closing the toast notification
+          window.location.href = '/';
+        },
+        closeButton: 'Close',
+      });
     } catch (error) {
       console.error('Error sending email:', error);
     }
   };
 
-   return (
+  return (
     <div>
+      <ToastContainer />
       {loading && ( // Render loading animation if loading
         <div className="loading-animation-container">
           <l-dot-wave

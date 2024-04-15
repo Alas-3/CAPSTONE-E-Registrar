@@ -10,14 +10,14 @@ const DocumentsRequestForm = () => {
   const navigate = useNavigate();
 
   const [studentNumber, setStudentNumber] = useState('');
-  const [yearLevel, setYearLevel] = useState('First Year');
+  const [yearLevel, setYearLevel] = useState('');
   const [program, setProgram] = useState('');
   const [documentToRequest, setDocumentToRequest] = useState('');
 
   // Fetch the latest ticket number from a separate collection
   const fetchLatestTicketNumber = async () => {
     try {
-      const ticketNumberRef = doc(db, 'ticketNumberDR', 'latest');
+      const ticketNumberRef = doc(db, 'ticketNumber', 'latest');
       const ticketNumberSnapshot = await getDoc(ticketNumberRef);
 
       if (ticketNumberSnapshot.exists()) {
@@ -39,7 +39,7 @@ const DocumentsRequestForm = () => {
       const newTicketNumber = latestTicketNumber + 1;
 
       // Update the ticket number in the 'ticketNumberDR' collection
-      const ticketNumberRef = doc(db, 'ticketNumberDR', 'latest');
+      const ticketNumberRef = doc(db, 'ticketNumber', 'latest');
       await setDoc(ticketNumberRef, { number: newTicketNumber });
 
       return newTicketNumber;
@@ -81,11 +81,17 @@ const DocumentsRequestForm = () => {
       }
 
       // More specific validation for Student Number
-      const studentNumberRegex = /^[\d-]+$/;
-      if (!studentNumberRegex.test(studentNumber)) {
-        alert('Invalid student number. Please use only digits and hyphen (-).');
+      const studentNumberRegex = /^[0-9]+$/;
+      if (!studentNumber.match(studentNumberRegex)) {
+        alert('Please enter a valid Student Number.');
         return;
       }
+
+      // Validate student number length
+      if (studentNumber.length !== 11) {
+        alert('Invalid student number. Must be 11 digits.');
+        return;
+      } 
 
       const documentsRequestRef = collection(db, 'documentsRequest');
 
@@ -115,12 +121,28 @@ const DocumentsRequestForm = () => {
     <div className="form-container">
       <h2>Request Document Form</h2>
       <form>
-        <label htmlFor="studentNumber">Student Number:</label>
+        <label htmlFor="studentNumber">Student Number:<span style={{ fontSize: '0.8em', opacity: 0.6, marginLeft: '5px' }}>(ex. 01201234567)</span></label>
         <input
           type="text"
           id="studentNumber"
           value={studentNumber}
-          onChange={(e) => setStudentNumber(e.target.value)}
+          onChange={(e) => {
+          const input = e.target.value;
+          const regex = /^[0-9]*$/; // Only allow digits
+          const maxLength = 11; // Maximum length allowed
+
+          // Check if the input matches the regex pattern and the length is not greater than maxLength
+          if (input.match(regex) && input.length <= maxLength) {
+            setStudentNumber(input); // Update student number state
+          } else {
+            // If the input doesn't meet the conditions, don't update the state
+            // and show an alert only when the length exceeds maxLength
+            if (input.length > maxLength) {
+              alert('Student Number must be exactly 11 digits.');
+            }
+          }
+        }}
+        autoComplete="off" // Disable text suggestion
         />
 
         <label htmlFor="yearLevel">Current Year Level:</label>
