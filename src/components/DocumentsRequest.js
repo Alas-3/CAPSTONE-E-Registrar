@@ -88,10 +88,10 @@ const DocumentsRequestForm = () => {
       }
 
       // Validate student number length
-      if (studentNumber.length !== 11) {
-        alert('Invalid student number. Must be 11 digits.');
+      if (studentNumber.length < 9 || studentNumber.length > 11) {
+        alert('Invalid student number. Must be 9 to 11 digits.');
         return;
-      } 
+      }
 
       const documentsRequestRef = collection(db, 'documentsRequest');
 
@@ -128,17 +128,22 @@ const DocumentsRequestForm = () => {
           value={studentNumber}
           onChange={(e) => {
           const input = e.target.value;
-          const regex = /^[0-9]*$/; // Only allow digits
+          const regex = /^[0-9]*$/; // Only allow numbers
+          const minLength = 9; // Minimum length allowed
           const maxLength = 11; // Maximum length allowed
 
-          // Check if the input matches the regex pattern and the length is not greater than maxLength
-          if (input.match(regex) && input.length <= maxLength) {
+          // Check if the input matches the regex pattern and the length is within the allowed range
+          if (input.match(regex) && input.length >= minLength && input.length <= maxLength) {
             setStudentNumber(input); // Update student number state
           } else {
             // If the input doesn't meet the conditions, don't update the state
-            // and show an alert only when the length exceeds maxLength
+            // and trim the input to the maximum allowed length
+            const trimmedInput = input.slice(0, maxLength);
+            setStudentNumber(trimmedInput);
+
+            // Show an alert if the input length exceeds the maximum allowed length
             if (input.length > maxLength) {
-              alert('Student Number must be exactly 11 digits.');
+              alert('Student Number must be 9 to 11 digits.');
             }
           }
         }}

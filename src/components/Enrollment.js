@@ -66,8 +66,8 @@ const EnrollmentForm = () => {
       }
 
       // Validate student number length
-      if (studentNumber.length !== 11) {
-        alert('Invalid student number. Must be 11 digits.');
+      if (studentNumber.length < 9 || studentNumber.length > 11) {
+        alert('Invalid student number. Must be 9 to 11 digits.');
         return;
       }
 
@@ -107,21 +107,26 @@ const EnrollmentForm = () => {
           id="studentNumber"
           value={studentNumber}
           onChange={(e) => {
-            const input = e.target.value;
-            const regex = /^[0-9]*$/; // Only allow numbers
-            const maxLength = 11; // Maximum length allowed
+          const input = e.target.value;
+          const regex = /^[0-9]*$/; // Only allow numbers
+          const minLength = 9; // Minimum length allowed
+          const maxLength = 11; // Maximum length allowed
 
-            // Check if the input matches the regex pattern and the length is not greater than maxLength
-            if (input.match(regex) && input.length <= maxLength) {
-              setStudentNumber(input); // Update student number state
-            } else {
-              // If the input doesn't meet the conditions, don't update the state
-              // and show an alert only when the length exceeds maxLength
-              if (input.length > maxLength) {
-                alert('Student Number must be exactly 11 digits.');
-              }
+          // Check if the input matches the regex pattern and the length is within the allowed range
+          if (input.match(regex) && input.length >= minLength && input.length <= maxLength) {
+            setStudentNumber(input); // Update student number state
+          } else {
+            // If the input doesn't meet the conditions, don't update the state
+            // and trim the input to the maximum allowed length
+            const trimmedInput = input.slice(0, maxLength);
+            setStudentNumber(trimmedInput);
+
+            // Show an alert if the input length exceeds the maximum allowed length
+            if (input.length > maxLength) {
+              alert('Student Number must be 9 to 11 digits.');
             }
-          }}
+          }
+        }}
           autoComplete="off"
         />
 
@@ -142,12 +147,12 @@ const EnrollmentForm = () => {
           <option value="BSAIS - Bachelor of Science in Accounting Information System">BSAIS - Bachelor of Science in Accounting Information System</option>
           <option value="BSAT - Bachelor of Science in Accounting Technology">BSAT - Bachelor of Science in Accounting Technology</option>
           <option value="BSBIO - Bachelor of Science in Biology">BSBIO - Bachelor of Science in Biology</option>
-          <option value="BSCMBK - Bachelor of Science in Business Administration Maj in Banking">BSCMBK - Bachelor of Science in Business Administration Maj in Banking</option>
-          <option value="BSCMM - Bachelor of Science in Business Administration Maj in Marketing Mgt">BSCMM - Bachelor of Science in Business Administration Maj in Marketing Mgt</option>
+          <option value="BSCMBK - Bachelor of Science in Business Administration Major in Banking">BSCMBK - Bachelor of Science in Business Administration Major in Banking</option>
+          <option value="BSCMM - Bachelor of Science in Business Administration Major in Marketing Mgt">BSCMM - Bachelor of Science in Business Administration Major in Marketing Mgt</option>
           <option value="BSCS - Bachelor of Science in Computer Science">BSCS - Bachelor of Science in Computer Science</option>
           <option value="BSCS_INT - Bachelor of Science in Computer Science (International)">BSCS_INT - Bachelor of Science in Computer Science (International)</option>
           <option value="BSEE_INT - Bachelor of Secondary Education Major in English (International)">BSEE_INT - Bachelor of Secondary Education Major in English (International)</option>
-          <option value="BSEEC - Bachelor of Elem Educ Maj in Early Childhood Education">BSEEC - Bachelor of Elem Educ Maj in Early Childhood Education</option>
+          <option value="BSEEC - Bachelor of Elementary Education Major in Early Childhood Education">BSEEC - Bachelor of Elementary Education Major in Early Childhood Education</option>
           <option value="BSEMC - Bachelor of Science in Entertainment and Multi Media Computing">BSEMC - Bachelor of Science in Entertainment and Multi Media Computing</option>
           <option value="BSHRM - Bachelor of Science in Hotel and Restaurant Management">BSHRM - Bachelor of Science in Hotel and Restaurant Management</option>
           <option value="BSHRMCF - B.S. Hotel & Restaurant Management Culinary & Food Service">BSHRMCF - B.S. Hotel & Restaurant Management Culinary & Food Service</option>
