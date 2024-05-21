@@ -236,27 +236,28 @@ const DocumentsRequestForm = () => {
     <option value="" disabled selected hidden>
       Select a Document to Request
     </option>
-    <option value="Diploma">Diploma</option>
-    <option value="GWA Certificate">GWA Certificate</option>
-    <option value="Permit to Transfer">Permit to Transfer</option>
-    <option value="Letter of Request for the release of TOR from previous school">
-      Letter of Request for the release of TOR from previous school
-    </option>
-    <option value="PTC Certificate of Completion">PTC Certificate of Completion</option>
     <option value="Certified True Copy of TOR from Previous School">
-      Certified True Copy of TOR from Previous School
-    </option>
-    <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
-    <option value="Transfer Credential">Transfer Credential</option>
-    <option value="True Copy of Grades">True Copy of Grades</option>
-    <option value="Certificate of No Pending Disciplinary Case">
-      Certificate of No Pending Disciplinary Case
+  Certified True Copy of TOR from Previous School
     </option>
     <option value="Certificate of Enrollment">Certificate of Enrollment</option>
     <option value="Certificate of Grading System">Certificate of Grading System</option>
     <option value="Certificate of Graduation/Completion">
       Certificate of Graduation/Completion
     </option>
+    <option value="Certificate of No Pending Disciplinary Case">
+      Certificate of No Pending Disciplinary Case
+    </option>
+    <option value="Diploma">Diploma</option>
+    <option value="Exam Permit">Exam Permit</option>
+    <option value="GWA Certificate">GWA Certificate</option>
+    <option value="Letter of Request for the release of TOR from previous school">
+      Letter of Request for the release of TOR from previous school
+    </option>
+    <option value="PTC Certificate of Completion">PTC Certificate of Completion</option>
+    <option value="Permit to Transfer">Permit to Transfer</option>
+    <option value="Transcript of Records (TOR)">Transcript of Records (TOR)</option>
+    <option value="Transfer Credential">Transfer Credential</option>
+    <option value="True Copy of Grades">True Copy of Grades</option>
   </select>
 
            <div className="button-container-docureq">
